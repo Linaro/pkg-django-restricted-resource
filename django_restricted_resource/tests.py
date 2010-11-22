@@ -5,7 +5,6 @@ Unit tests for django_restricted_resource application
 from django.contrib.auth.models import (AnonymousUser, User, Group)
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.test import TestCase
 
 from django_testscenarios import TestCaseWithScenarios
 
@@ -20,7 +19,7 @@ class ExampleRestrictedResource(RestrictedResource):
     name = models.CharField(max_length=100, null=True)
 
 
-class ResourceCleanTests(TestCase):
+class ResourceCleanTests(TestCaseWithScenarios):
 
     def setUp(self):
         self.user = User.objects.create(username='user')
@@ -47,7 +46,7 @@ class ResourceCleanTests(TestCase):
         self.assertEqual(resource.clean(), None)
 
 
-class ResourceOwnerTest(TestCase):
+class ResourceOwnerTest(TestCaseWithScenarios):
     """ Tests for the owner property """
 
     def setUp(self):
@@ -103,6 +102,7 @@ class CommonScenarios(object):
     ]
 
     def setUp(self):
+        super(CommonScenarios, self).setUp()
         if self.owned_by == 'user':
             self.owner = User.objects.create(username='user')
         else:
@@ -117,6 +117,7 @@ class CommonScenarios(object):
         self.anonymous_user = AnonymousUser()
 
     def tearDown(self):
+        super(CommonScenarios, self).tearDown()
         self.blocked_user.delete()
         self.unrelated_user.delete()
         self.unrelated_group.delete()
@@ -187,7 +188,7 @@ class ResourceAccessibilityTests(CommonScenarios, TestCaseWithScenarios):
             True)
 
 
-class PublicResourceAccessiblityTypeTests(TestCaseWithScenarios):
+class PublicResourceAccessibilityTypeTests(TestCaseWithScenarios):
     """ Tests for the get_access_type() method """
 
     scenarios = [
@@ -200,6 +201,7 @@ class PublicResourceAccessiblityTypeTests(TestCaseWithScenarios):
     ]
 
     def setUp(self):
+        super(PublicResourceAccessibilityTypeTests, self).setUp()
         if self.owned_by == 'user':
             self.owner = User.objects.create(username='user')
         else:
@@ -214,6 +216,7 @@ class PublicResourceAccessiblityTypeTests(TestCaseWithScenarios):
         self.anonymous_user = AnonymousUser()
 
     def tearDown(self):
+        super(PublicResourceAccessibilityTypeTests, self).tearDown()
         self.blocked_user.delete()
         self.unrelated_user.delete()
         self.unrelated_group.delete()
@@ -264,6 +267,7 @@ class PrivateResourceAccessibilityTypeRejectionTests(TestCaseWithScenarios):
     ]
 
     def setUp(self):
+        super(PrivateResourceAccessibilityTypeRejectionTests, self).setUp()
         if self.owned_by == 'user':
             self.owner = User.objects.create(username='user')
         else:
@@ -278,6 +282,7 @@ class PrivateResourceAccessibilityTypeRejectionTests(TestCaseWithScenarios):
         self.anonymous_user = AnonymousUser()
 
     def tearDown(self):
+        super(PrivateResourceAccessibilityTypeRejectionTests, self).setUp()
         self.blocked_user.delete()
         self.unrelated_user.delete()
         self.unrelated_group.delete()
@@ -310,14 +315,16 @@ class PrivateResourceAccessibilityTypeRejectionTests(TestCaseWithScenarios):
             self.resource.NO_ACCESS)
 
 
-class PrivateResourceAccessibilityTypeTests(TestCase):
+class PrivateResourceAccessibilityTypeTests(TestCaseWithScenarios):
 
     def setUp(self):
+        super(PrivateResourceAccessibilityTypeTests, self).setUp()
         self.owning_user = User.objects.create(username='user')
         self.resource = ExampleRestrictedResource.objects.create(
             user=self.owning_user, is_public=False)
 
     def tearDown(self):
+        super(PrivateResourceAccessibilityTypeTests, self).tearDown()
         self.resource.delete()
         self.owning_user.delete()
 
@@ -327,9 +334,10 @@ class PrivateResourceAccessibilityTypeTests(TestCase):
             self.resource.PRIVATE_ACCESS)
 
 
-class SharedResourceAccessibilityTypeTests(TestCase):
+class SharedResourceAccessibilityTypeTests(TestCaseWithScenarios):
 
     def setUp(self):
+        super(SharedResourceAccessibilityTypeTests, self).setUp()
         self.owning_group = Group.objects.create(name='group')
         self.related_user = User.objects.create(username='user')
         self.related_user.groups.add(self.owning_group)
@@ -337,6 +345,7 @@ class SharedResourceAccessibilityTypeTests(TestCase):
             group=self.owning_group, is_public=False)
 
     def tearDown(self):
+        super(SharedResourceAccessibilityTypeTests, self).tearDown()
         self.resource.delete()
         self.owning_group.delete()
         self.related_user.delete()
