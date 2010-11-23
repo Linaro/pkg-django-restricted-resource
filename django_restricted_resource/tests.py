@@ -16,7 +16,10 @@ class ExampleRestrictedResource(RestrictedResource):
     Dummy model to get non-abstract model that inherits from
     RestrictedResource
     """
-    name = models.CharField(max_length=100, null=True)
+    name = models.CharField(max_length=100, null=True, unique=True)
+
+    class Meta:
+        ordering = ['name']
 
 
 class ResourceCleanTests(TestCaseWithScenarios):
@@ -363,3 +366,85 @@ class SharedResourceAccessibilityTypeTests(TestCaseWithScenarios):
         self.assertEqual(
             self.resource.get_access_type(self.related_user),
             self.resource.SHARED_ACCESS)
+
+
+class RestrictedResourceManagerTests(TestCaseWithScenarios):
+
+    def setUp(self):
+        super(RestrictedResourceManagerTests, self).setUp()
+        self._user = User.objects.create(username="user")
+        self._unrelated_user = User.objects.create(username="unrelated user")
+        self._group = Group.objects.create(name="group")
+        self._unrelated_group = Group.objects.create(name="unrelated group")
+
+    def tearDown(self):
+        self._user.delete()
+        self._unrelated_user.delete()
+        self._group.delete()
+        self._unrelated_group.delete()
+        super(RestrictedResourceManagerTests, self).tearDown()
+
+    def add_resources(self, resources, owner, public):
+        for name in resources:
+            ExampleRestrictedResource.objects.create(
+                owner=owner,
+                name=name,
+                is_public=public)
+
+    def test_accessible_by_anyone_returns_only_public_objects(self):
+        self.add_resources(["a", "b", "c"], owner=self._user, public=True)
+        self.add_resources(["x", "y", "z"], owner=self._user, public=False)
+        resources = ExampleRestrictedResource.objects.accessible_by_anyone()
+        self.assertEqual(
+            [res.name for res in resources],
+            ["a", "b", "c"])
+
+    def test_accessible_by_prinipal_for_owner(self):
+        self.add_resources(["a", "b", "c"], owner=self._user, public=True)
+        self.add_resources(["x", "y", "z"], owner=self._user, public=False)
+        resources = ExampleRestrictedResource.objects.accessible_by_principal(
+            self._user)
+        self.assertEqual(
+            [res.name for res in resources],
+            ["a", "b", "c", "x", "y", "z"])
+
+    def test_accessible_by_prinipal_for_owner(self):
+        self.add_resources(["a", "b", "c"], owner=self._user, public=True)
+        self.add_resources(["x", "y", "z"], owner=self._user, public=False)
+        resources = ExampleRestrictedResource.objects.accessible_by_principal(
+            self._user)
+        self.assertEqual(
+            [res.name for res in resources],
+            ["a", "b", "c", "x", "y", "z"])
+
+    def test_accessible_by_prinicpal_for_unrelated_user(self):
+        self.add_resources(["a", "b", "c"], owner=self._user, public=True)
+        self.add_resources(["x", "y", "z"], owner=self._user, public=False)
+        resources = ExampleRestrictedResource.objects.accessible_by_principal(
+            self._unrelated_user)
+        self.assertEqual(
+            [res.name for res in resources],
+            ["a", "b", "c"])
+
+    def test_accessible_by_prinicpal_for_unrelated_user_without_any_public_objects(self):
+        self.add_resources(["x", "y", "z"], owner=self._user, public=False)
+        resources = ExampleRestrictedResource.objects.accessible_by_principal(
+            self._unrelated_user)
+        self.assertEqual([res.name for res in resources], [])
+
+    def test_accessible_by_principal_for_group(self):
+        self.add_resources(["a", "b", "c"], owner=self._group, public=True)
+        self.add_resources(["x", "y", "z"], owner=self._group, public=False)
+        resources = ExampleRestrictedResource.objects.accessible_by_principal(
+            self._unrelated_user)
+        self.assertEqual([res.name for res in resources], ["a", "b", "c"])
+
+    def test_accessible_by_principal_for_group_and_member(self):
+        self.add_resources(["a", "b", "c"], owner=self._group, public=True)
+        self.add_resources(["x", "y", "z"], owner=self._group, public=False)
+        self._user.groups.add(self._group)
+        resources = ExampleRestrictedResource.objects.accessible_by_principal(
+            self._user)
+        self.assertEqual(
+            [res.name for res in resources],
+            ["a", "b", "c", "x", "y", "z"])
