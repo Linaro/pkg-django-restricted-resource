@@ -72,8 +72,8 @@ class RestrictedResourceManager(models.Manager):
         RestrictedResource.get_access_type(principal).
         """
         if isinstance(principal, (User, AnonymousUser, type(None))):
-            user = filter_bogus_users(user)
-            return self._accesisble_by_user(user)
+            user = filter_bogus_users(principal)
+            return self._accessible_by_user(user)
         elif isinstance(principal, Group):
             group = principal
             return self._accessible_by_group(group)
@@ -87,7 +87,7 @@ class RestrictedResourceManager(models.Manager):
         """
         return self._accessible_by_user(None)
 
-    def _accesible_by_user(self, user):
+    def _accessible_by_user(self, user):
         if user is None:
             return self.filter(is_public=True)
         else:
