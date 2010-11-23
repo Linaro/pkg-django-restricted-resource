@@ -52,8 +52,8 @@ class RestrictedResourceManager(models.Manager):
         instance.
         """
         if isinstance(principal, (User, AnonymousUser, type(None))):
-            user = filter_bogus_users(user)
-            return _owned_by_user(user)
+            user = filter_bogus_users(principal)
+            return self._owned_by_user(user)
         elif isinstance(principal, Group):
             group = principal
             return self._owned_by_group(group)
