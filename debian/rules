@@ -13,8 +13,10 @@ unexport FFLAGS
 unexport LDFLAGS
 
 #exports specified using stdeb Setup-Env-Vars:
-export DH_OPTIONS=--buildsystem=python_distutils
+# export DH_OPTIONS=--buildsystem=python_distutils
 
+override_dh_auto_test:
+	./setup.py test
 
 %:
 	dh $@

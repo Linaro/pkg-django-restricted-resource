@@ -1,3 +1,9 @@
+django-restricted-resource (0.1-1ubuntu2) maverick; urgency=low
+
+  * Run unit tests on build 
+
+ -- Zygmunt Krynicki <zygmunt.krynicki@linaro.org>  Thu, 25 Nov 2010 00:26:16 +0100
+
 django-restricted-resource (0.1-1ubuntu1) maverick; urgency=low
 
   * First upstream release 
