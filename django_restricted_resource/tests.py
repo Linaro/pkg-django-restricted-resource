@@ -308,63 +308,88 @@ class GroupMembersGetSharedAccessToNonPublicGroupResources(
             resource.SHARED_ACCESS)
 
 
-class ManagerAccessibilityTests(TestCaseWithScenarios, FixtureHelper):
+class ResourceManagerAccessibleSetFindsOnlyPublicElementsForNonOwners(
+    TestCaseWithInvariants, FixtureHelper):
+
+    invariants = dict(
+        owner = dict(
+            user = lambda self: self.getUniqueUser(),
+            group = lambda self: self.getUniqueGroup(),
+        ),
+        accessing_principal = dict(
+            nothing = None,
+            anonymous_user = AnonymousUser(),
+            inactive_user = lambda self: self.getUniqueUser(is_active=False),
+            unrelated_user = lambda self: self.getUniqueUser(),
+            unrelated_group = lambda self: self.getUniqueGroup(),
+        )
+    )
+
+    def test(self):
+        manager = ExampleRestrictedResource.objects
+        self.add_resources(["a", "b", "c"], owner=self.owner, is_public=True)
+        self.add_resources(["x", "y", "z"], owner=self.owner, is_public=False)
+        resources = manager.accessible_by_principal(self.accessing_principal)
+        self.assertEqual(
+            [res.name for res in resources],
+            ["a", "b", "c"])
+
+
+class ResourceManagerAccessibleByAnyoneSetFindsOnlyPublicElements(
+    TestCaseWithInvariants, FixtureHelper):
+
+    invariants = dict(
+        owner = dict(
+            user = lambda self: self.getUniqueUser(),
+            group = lambda self: self.getUniqueGroup(),
+        ),
+    )
+
+    def test(self):
+        self.add_resources(["a", "b", "c"], owner=self.owner, is_public=True)
+        self.add_resources(["x", "y", "z"], owner=self.owner, is_public=False)
+        manager = ExampleRestrictedResource.objects
+        resources = manager.accessible_by_anyone()
+        self.assertEqual(
+            [res.name for res in resources],
+            ["a", "b", "c"])
+
+
+class ResourceManagerAccessibleByPrincipalSetFindsAllOwnedlements(
+    TestCaseWithInvariants, FixtureHelper):
+
+    invariants = dict(
+        owner = dict(
+            user = lambda self: self.getUniqueUser(),
+            group = lambda self: self.getUniqueGroup(),
+        ),
+    )
+
+    def test(self):
+        self.add_resources(["a", "b", "c"], owner=self.owner, is_public=True)
+        self.add_resources(["x", "y", "z"], owner=self.owner, is_public=False)
+        manager = ExampleRestrictedResource.objects
+        resources = manager.accessible_by_principal(self.owner)
+        self.assertEqual(
+            [res.name for res in resources],
+            ["a", "b", "c", "x", "y", "z"])
+
+
+class ResourceManagerAccessibleSetTests(
+    TestCase, FixtureHelper):
 
     def setUp(self):
-        super(ManagerAccessibilityTests, self).setUp()
+        super(ResourceManagerAccessibleSetTests, self).setUp()
         self.user = self.getUniqueUser()
         self.unrealted_group = self.getUniqueGroup()
         self.group = self.getUniqueGroup()
         self.unrelated_user = self.getUniqueUser()
         self.manager = ExampleRestrictedResource.objects
 
-    def add_resources(self, resources, owner, is_public):
-        for name in resources:
-            self.getUniqueResource(
-                name=name, owner=owner, is_public=is_public)
-
-    def test_accessible_by_anyone_returns_only_public_objects(self):
-        self.add_resources(["a", "b", "c"], owner=self.user, is_public=True)
-        self.add_resources(["x", "y", "z"], owner=self.user, is_public=False)
-        resources = self.manager.accessible_by_anyone()
-        self.assertEqual(
-            [res.name for res in resources],
-            ["a", "b", "c"])
-
-    def test_accessible_by_prinipal_for_owner(self):
-        self.add_resources(["a", "b", "c"], owner=self.user, is_public=True)
-        self.add_resources(["x", "y", "z"], owner=self.user, is_public=False)
-        resources = self.manager.accessible_by_principal(self.user)
-        self.assertEqual(
-            [res.name for res in resources],
-            ["a", "b", "c", "x", "y", "z"])
-
-    def test_accessible_by_prinipal_for_group(self):
-        self.add_resources(["a", "b", "c"], owner=self.group, is_public=True)
-        self.add_resources(["x", "y", "z"], owner=self.group, is_public=False)
-        resources = self.manager.accessible_by_principal(self.group)
-        self.assertEqual(
-            [res.name for res in resources],
-            ["a", "b", "c", "x", "y", "z"])
-
-    def test_accessible_by_prinicpal_for_unrelated_user(self):
-        self.add_resources(["a", "b", "c"], owner=self.user, is_public=True)
-        self.add_resources(["x", "y", "z"], owner=self.user, is_public=False)
-        resources = self.manager.accessible_by_principal(self.unrelated_user)
-        self.assertEqual(
-            [res.name for res in resources],
-            ["a", "b", "c"])
-
     def test_accessible_by_prinicpal_for_unrelated_user_without_any_public_objects(self):
         self.add_resources(["x", "y", "z"], owner=self.user, is_public=False)
         resources = self.manager.accessible_by_principal(self.unrelated_user)
         self.assertEqual([res.name for res in resources], [])
-
-    def test_accessible_by_principal_for_group(self):
-        self.add_resources(["a", "b", "c"], owner=self.group, is_public=True)
-        self.add_resources(["x", "y", "z"], owner=self.group, is_public=False)
-        resources = self.manager.accessible_by_principal(self.unrelated_user)
-        self.assertEqual([res.name for res in resources], ["a", "b", "c"])
 
     def test_accessible_by_principal_for_group_and_member(self):
         self.add_resources(["a", "b", "c"], owner=self.group, is_public=True)
@@ -374,5 +399,3 @@ class ManagerAccessibilityTests(TestCaseWithScenarios, FixtureHelper):
         self.assertEqual(
             [res.name for res in resources],
             ["a", "b", "c", "x", "y", "z"])
-
-

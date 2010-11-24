@@ -132,3 +132,8 @@ class FixtureHelper(object):
             owner = owner, is_public = is_public, name=name)
         self.addCleanup(resource.delete)
         return resource
+
+    def add_resources(self, resources, owner, is_public):
+        for name in resources:
+            self.getUniqueResource(
+                name=name, owner=owner, is_public=is_public)
