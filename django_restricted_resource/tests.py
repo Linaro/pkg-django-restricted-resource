@@ -88,6 +88,36 @@ class ResourceOwnerTest(TestCase, FixtureHelper):
         self.assertEqual(resource.group, None)
         self.assertEqual(resource.user, user)
 
+    def test_owner_cannot_be_none(self):
+        resource = ExampleRestrictedResource()
+        self.assertRaises(TypeError, setattr, resource, "owner", None)
+
+
+class PrincipalTypeIsChecked(
+    TestCaseWithInvariants, FixtureHelper):
+
+    invariants = dict(
+        principal = [1, object(), {}, [], "string"],
+    )
+
+    def test_owner_assignment(self):
+        resource = ExampleRestrictedResource()
+        self.assertRaises(TypeError, setattr, resource, "owner", self.principal)
+
+    def test_is_accessible_by(self):
+        resource = ExampleRestrictedResource()
+        self.assertRaises(TypeError, resource.is_accessible_by, self.principal)
+
+    def test_is_owned_by(self):
+        resource = ExampleRestrictedResource()
+        self.assertRaises(TypeError, resource.is_owned_by, self.principal)
+
+    def test_manger_owned_by_set(self):
+        self.assertRaises(TypeError, ExampleRestrictedResource.objects.owned_by_principal, self.principal)
+
+    def test_manger_accessible_by_set(self):
+        self.assertRaises(TypeError, ExampleRestrictedResource.objects.accessible_by_principal, self.principal)
+
 
 class OthersDoNotOwnResource(
     TestCaseWithInvariants, FixtureHelper):
@@ -209,12 +239,19 @@ class EveryoneHasPublicAccessToPublicResources(
         is_public = [True, False],
     )
 
-    def test(self):
-        resource = self.getUniqueResource(
+    def setUp(self):
+        super(EveryoneHasPublicAccessToPublicResources, self).setUp()
+        self.resource = self.getUniqueResource(
             owner=self.owner, is_public=True)
+
+    def test_get_access_type(self):
         self.assertEqual(
-            resource.get_access_type(self.accessing_principal),
-            resource.PUBLIC_ACCESS)
+            self.resource.get_access_type(self.accessing_principal),
+            self.resource.PUBLIC_ACCESS)
+
+    def test_is_accessible_by(self):
+        self.assertTrue(
+            self.resource.is_accessible_by(self.accessing_principal))
 
 
 class NobodyButTheOwnerHasAccessToNonPublicUserResources(
@@ -298,6 +335,14 @@ class ManagerAccessibilityTests(TestCaseWithScenarios, FixtureHelper):
         self.add_resources(["a", "b", "c"], owner=self.user, is_public=True)
         self.add_resources(["x", "y", "z"], owner=self.user, is_public=False)
         resources = self.manager.accessible_by_principal(self.user)
+        self.assertEqual(
+            [res.name for res in resources],
+            ["a", "b", "c", "x", "y", "z"])
+
+    def test_accessible_by_prinipal_for_group(self):
+        self.add_resources(["a", "b", "c"], owner=self.group, is_public=True)
+        self.add_resources(["x", "y", "z"], owner=self.group, is_public=False)
+        resources = self.manager.accessible_by_principal(self.group)
         self.assertEqual(
             [res.name for res in resources],
             ["a", "b", "c", "x", "y", "z"])
