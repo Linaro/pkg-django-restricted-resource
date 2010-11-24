@@ -1,0 +1,5 @@
+django-restricted-resource (0.1-1ubuntu1) maverick; urgency=low
+
+  * First upstream release 
+
+ -- Zygmunt Krynicki <zygmunt.krynicki@linaro.org>  Tue, 23 Nov 2010 15:18:56 +0100
