@@ -302,14 +302,6 @@ class ManagerAccessibilityTests(TestCaseWithScenarios, FixtureHelper):
             [res.name for res in resources],
             ["a", "b", "c", "x", "y", "z"])
 
-    def test_accessible_by_prinipal_for_owner(self):
-        self.add_resources(["a", "b", "c"], owner=self.user, is_public=True)
-        self.add_resources(["x", "y", "z"], owner=self.user, is_public=False)
-        resources = self.manager.accessible_by_principal(self.user)
-        self.assertEqual(
-            [res.name for res in resources],
-            ["a", "b", "c", "x", "y", "z"])
-
     def test_accessible_by_prinicpal_for_unrelated_user(self):
         self.add_resources(["a", "b", "c"], owner=self.user, is_public=True)
         self.add_resources(["x", "y", "z"], owner=self.user, is_public=False)
