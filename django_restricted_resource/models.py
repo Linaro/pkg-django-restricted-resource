@@ -7,6 +7,7 @@ from django.contrib.auth.models import (AnonymousUser, User, Group)
 from django.db import models
 
 from django_restricted_resource.utils import filter_bogus_users
+from django_restricted_resource.managers import RestrictedResourceManager
 
 
 class RestrictedResource(models.Model):
@@ -38,6 +39,8 @@ class RestrictedResource(models.Model):
     user = models.ForeignKey(User, null=True, blank=True)
     group = models.ForeignKey(Group, null=True, blank=True)
     is_public = models.BooleanField()
+
+    objects = RestrictedResourceManager()
 
     class Meta:
         abstract = True
