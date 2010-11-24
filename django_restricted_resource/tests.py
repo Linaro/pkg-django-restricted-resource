@@ -220,6 +220,11 @@ class NobodyButTheOwnerHasAccessToNonPublicUserResources(
             resource.get_access_type(self.accessing_principal),
             resource.NO_ACCESS)
 
+
+class OwnerHasPrivateAccessToNonPublicUserResources(
+    TestCase, FixtureHelper):
+    """ Tests for the get_access_type() method """
+
     def test_owner(self):
         owner = self.getUniqueUser()
         resource = self.getUniqueResource(is_public=False, owner=owner)
