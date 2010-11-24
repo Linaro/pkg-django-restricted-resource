@@ -106,9 +106,6 @@ class RestrictedResource(models.Model):
         """
         Check if the resource can be accessed by the specified principal.
         """
-        if not isinstance(principal,
-                          (User, Group, AnonymousUser, type(None))):
-            raise TypeError("Expected User or Group instance as argument")
         return self.get_access_type(principal) != self.NO_ACCESS
 
     def is_owned_by(self, principal):

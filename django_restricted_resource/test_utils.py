@@ -45,7 +45,6 @@ class TestCaseWithInvariants(TestCaseWithScenarios):
           "variant-N"
         * dict: Each of the values is checked. In addition the keys will
           be used to construct meaningful parameter descriptions.
-        * anything else is wrapped to a one-element list
     """
 
     def _get_invariants(self):
@@ -70,10 +69,6 @@ class TestCaseWithInvariants(TestCaseWithScenarios):
         scenario_ids_list = []
         scenario_params_list = []
         for value in invariant_values:
-            # Pack single items into a list so that we benefit from the
-            # list handling code below
-            if not isinstance(value, (list, dict)):
-                value = [value]
             if isinstance(value, list):
                 if all([isinstance(variant, (int, bool, str)) for variant in value]):
                     scenario_ids_list.append([repr(variant) for variant in value])
@@ -132,9 +127,7 @@ class FixtureHelper(object):
         self.addCleanup(group.delete)
         return group
 
-    def getUniqueResource(self, is_public, name=None, owner=None):
-        if owner is None:
-            owner = self.getUniqueUser()
+    def getUniqueResource(self, owner, is_public, name=None):
         resource = ExampleRestrictedResource.objects.create(
             owner = owner, is_public = is_public, name=name)
         self.addCleanup(resource.delete)

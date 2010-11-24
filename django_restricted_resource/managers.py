@@ -97,12 +97,11 @@ class RestrictedResourceManager(models.Manager):
                 Q(group__in = user.groups.all()))
 
     def _accessible_by_group(self, group):
-        if group is None:
-            return self.filter(is_public=True)
-        else:
-            return self.filter(
-                Q(is_public = True) |
-                Q(group = group))
+        # None gets mapped to users, there is no chance to get None here
+        assert group is not None
+        return self.filter(
+            Q(is_public = True) |
+            Q(group = group))
 
     def _owned_by_user(self, user):
         if user is None:
@@ -111,7 +110,6 @@ class RestrictedResourceManager(models.Manager):
             return self.filter(user = user)
 
     def _owned_by_group(self, group):
-        if group is None:
-            return self.none()
-        else:
-            return self.filter(group = group)
+        # None gets mapped to users, there is no chance to get None here
+        assert group is not None
+        return self.filter(group = group)
