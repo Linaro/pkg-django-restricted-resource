@@ -425,11 +425,11 @@ class RestrictedResourceManagerTests(TestCaseWithScenarios):
             [res.name for res in resources],
             ["a", "b", "c", "x", "y", "z"])
 
-    def test_accessible_by_prinipal_for_owner(self):
-        self.add_resources(["a", "b", "c"], owner=self._user, public=True)
-        self.add_resources(["x", "y", "z"], owner=self._user, public=False)
+    def test_accessible_by_prinipal_for_group(self):
+        self.add_resources(["a", "b", "c"], owner=self._group, public=True)
+        self.add_resources(["x", "y", "z"], owner=self._group, public=False)
         resources = ExampleRestrictedResource.objects.accessible_by_principal(
-            self._user)
+            self._group)
         self.assertEqual(
             [res.name for res in resources],
             ["a", "b", "c", "x", "y", "z"])
