@@ -1,6 +1,0 @@
-#!/bin/sh
-export PYTHONPATH=$(pwd)
-export DJANGO_SETTINGS_MODULE=configs.test.settings
-# Testing all apps is broken due to missing templates for some standard
-# django.contrib applications.
-django-admin test django_restricted_resource $@
