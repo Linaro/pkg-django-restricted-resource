@@ -219,6 +219,28 @@ class ResourceManagerOwnerSetFindsMatchesForOwner(
         self.assertEqual(result.count(), self.num_objects)
 
 
+class ResourceManagerOwnerSetFindsMatchesForOwnerGroupMember(
+    TestCaseWithInvariants, FixtureHelper):
+
+    invariants = dict(
+        num_objects = [0, 10, 500],
+        is_public = [True, False],
+    )
+
+    def test(self):
+        group = self.getUniqueGroup()
+        user = self.getUniqueUser()
+        user.groups.add(group)
+        for i in range(self.num_objects):
+            self.getUniqueResource(
+                owner=group,
+                name=str(i),
+                is_public=self.is_public)
+        manager = ExampleRestrictedResource.objects
+        result = manager.owned_by_principal(user)
+        self.assertEqual(result.count(), self.num_objects)
+
+
 class EveryoneHasPublicAccessToPublicResources(
     TestCaseWithInvariants, FixtureHelper):
     """ Tests for the get_access_type() method """

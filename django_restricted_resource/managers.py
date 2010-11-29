@@ -107,7 +107,9 @@ class RestrictedResourceManager(models.Manager):
         if user is None:
             return self.none()
         else:
-            return self.filter(user = user)
+            return self.filter(
+                Q(user = user) |
+                Q(group__in = user.groups.all()))
 
     def _owned_by_group(self, group):
         # None gets mapped to users, there is no chance to get None here
