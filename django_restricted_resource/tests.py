@@ -1,3 +1,21 @@
+# Copyright (C) 2010 Linaro Limited
+#
+# Author: Zygmunt Krynicki <zygmunt.krynicki@linaro.org>
+#
+# This file is part of django-restricted-resource.
+#
+# django-restricted-resource is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License version 3
+# as published by the Free Software Foundation
+#
+# django-restricted-resource is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with django-restricted-resource.  If not, see <http://www.gnu.org/licenses/>.
+
 """
 Unit tests for django_restricted_resource application
 """
@@ -5,8 +23,6 @@ Unit tests for django_restricted_resource application
 from django.contrib.auth.models import (AnonymousUser, User, Group)
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.test import TestCase
-
 from django_testscenarios import TestCaseWithScenarios
 
 from django_restricted_resource.models import RestrictedResource
@@ -17,18 +33,23 @@ class ExampleRestrictedResource(RestrictedResource):
     Dummy model to get non-abstract model that inherits from
     RestrictedResource
     """
-    name = models.CharField(max_length=100, null=True)
+    name = models.CharField(max_length=100, null=True, unique=True)
+
+    class Meta:
+        ordering = ['name']
 
 
-class ResourceCleanTests(TestCase):
+class ResourceCleanTests(TestCaseWithScenarios):
 
     def setUp(self):
+        super(ResourceCleanTests, self).setUp()
         self.user = User.objects.create(username='user')
         self.group = Group.objects.create(name='group')
 
     def tearDown(self):
         self.user.delete()
         self.group.delete()
+        super(ResourceCleanTests, self).tearDown()
 
     def test_clean_raises_exception_when_owner_is_not_set(self):
         resource = RestrictedResource()
@@ -47,16 +68,18 @@ class ResourceCleanTests(TestCase):
         self.assertEqual(resource.clean(), None)
 
 
-class ResourceOwnerTest(TestCase):
+class ResourceOwnerTest(TestCaseWithScenarios):
     """ Tests for the owner property """
 
     def setUp(self):
+        super(ResourceOwnerTest, self).setUp()
         self.user = User.objects.create(username="user")
         self.group = Group.objects.create(name="group")
 
     def tearDown(self):
         self.user.delete()
         self.group.delete()
+        super(ResourceOwnerTest, self).tearDown()
 
     def test_user_is_owner(self):
         resource = ExampleRestrictedResource(user=self.user)
@@ -103,6 +126,7 @@ class CommonScenarios(object):
     ]
 
     def setUp(self):
+        super(CommonScenarios, self).setUp()
         if self.owned_by == 'user':
             self.owner = User.objects.create(username='user')
         else:
@@ -122,6 +146,7 @@ class CommonScenarios(object):
         self.unrelated_group.delete()
         self.resource.delete()
         self.owner.delete()
+        super(CommonScenarios, self).tearDown()
 
 
 class ResourceOwnershipTests(CommonScenarios, TestCaseWithScenarios):
@@ -187,7 +212,7 @@ class ResourceAccessibilityTests(CommonScenarios, TestCaseWithScenarios):
             True)
 
 
-class PublicResourceAccessiblityTypeTests(TestCaseWithScenarios):
+class PublicResourceAccessibilityTypeTests(TestCaseWithScenarios):
     """ Tests for the get_access_type() method """
 
     scenarios = [
@@ -200,6 +225,7 @@ class PublicResourceAccessiblityTypeTests(TestCaseWithScenarios):
     ]
 
     def setUp(self):
+        super(PublicResourceAccessibilityTypeTests, self).setUp()
         if self.owned_by == 'user':
             self.owner = User.objects.create(username='user')
         else:
@@ -219,6 +245,7 @@ class PublicResourceAccessiblityTypeTests(TestCaseWithScenarios):
         self.unrelated_group.delete()
         self.resource.delete()
         self.owner.delete()
+        super(PublicResourceAccessibilityTypeTests, self).tearDown()
 
     def test_get_access_type_for_nobody(self):
         self.assertEqual(
@@ -264,6 +291,7 @@ class PrivateResourceAccessibilityTypeRejectionTests(TestCaseWithScenarios):
     ]
 
     def setUp(self):
+        super(PrivateResourceAccessibilityTypeRejectionTests, self).setUp()
         if self.owned_by == 'user':
             self.owner = User.objects.create(username='user')
         else:
@@ -283,6 +311,7 @@ class PrivateResourceAccessibilityTypeRejectionTests(TestCaseWithScenarios):
         self.unrelated_group.delete()
         self.resource.delete()
         self.owner.delete()
+        super(PrivateResourceAccessibilityTypeRejectionTests, self).tearDown()
 
     def test_get_access_type_for_nobody(self):
         self.assertEqual(
@@ -310,9 +339,10 @@ class PrivateResourceAccessibilityTypeRejectionTests(TestCaseWithScenarios):
             self.resource.NO_ACCESS)
 
 
-class PrivateResourceAccessibilityTypeTests(TestCase):
+class PrivateResourceAccessibilityTypeTests(TestCaseWithScenarios):
 
     def setUp(self):
+        super(PrivateResourceAccessibilityTypeTests, self).setUp()
         self.owning_user = User.objects.create(username='user')
         self.resource = ExampleRestrictedResource.objects.create(
             user=self.owning_user, is_public=False)
@@ -320,6 +350,7 @@ class PrivateResourceAccessibilityTypeTests(TestCase):
     def tearDown(self):
         self.resource.delete()
         self.owning_user.delete()
+        super(PrivateResourceAccessibilityTypeTests, self).tearDown()
 
     def test_get_access_type_for_owning_user(self):
         self.assertEqual(
@@ -327,9 +358,10 @@ class PrivateResourceAccessibilityTypeTests(TestCase):
             self.resource.PRIVATE_ACCESS)
 
 
-class SharedResourceAccessibilityTypeTests(TestCase):
+class SharedResourceAccessibilityTypeTests(TestCaseWithScenarios):
 
     def setUp(self):
+        super(SharedResourceAccessibilityTypeTests, self).setUp()
         self.owning_group = Group.objects.create(name='group')
         self.related_user = User.objects.create(username='user')
         self.related_user.groups.add(self.owning_group)
@@ -340,6 +372,7 @@ class SharedResourceAccessibilityTypeTests(TestCase):
         self.resource.delete()
         self.owning_group.delete()
         self.related_user.delete()
+        super(SharedResourceAccessibilityTypeTests, self).tearDown()
 
     def test_get_access_type_for_owning_group(self):
         self.assertEqual(
@@ -350,3 +383,85 @@ class SharedResourceAccessibilityTypeTests(TestCase):
         self.assertEqual(
             self.resource.get_access_type(self.related_user),
             self.resource.SHARED_ACCESS)
+
+
+class RestrictedResourceManagerTests(TestCaseWithScenarios):
+
+    def setUp(self):
+        super(RestrictedResourceManagerTests, self).setUp()
+        self._user = User.objects.create(username="user")
+        self._unrelated_user = User.objects.create(username="unrelated user")
+        self._group = Group.objects.create(name="group")
+        self._unrelated_group = Group.objects.create(name="unrelated group")
+
+    def tearDown(self):
+        self._user.delete()
+        self._unrelated_user.delete()
+        self._group.delete()
+        self._unrelated_group.delete()
+        super(RestrictedResourceManagerTests, self).tearDown()
+
+    def add_resources(self, resources, owner, public):
+        for name in resources:
+            ExampleRestrictedResource.objects.create(
+                owner=owner,
+                name=name,
+                is_public=public)
+
+    def test_accessible_by_anyone_returns_only_public_objects(self):
+        self.add_resources(["a", "b", "c"], owner=self._user, public=True)
+        self.add_resources(["x", "y", "z"], owner=self._user, public=False)
+        resources = ExampleRestrictedResource.objects.accessible_by_anyone()
+        self.assertEqual(
+            [res.name for res in resources],
+            ["a", "b", "c"])
+
+    def test_accessible_by_prinipal_for_owner(self):
+        self.add_resources(["a", "b", "c"], owner=self._user, public=True)
+        self.add_resources(["x", "y", "z"], owner=self._user, public=False)
+        resources = ExampleRestrictedResource.objects.accessible_by_principal(
+            self._user)
+        self.assertEqual(
+            [res.name for res in resources],
+            ["a", "b", "c", "x", "y", "z"])
+
+    def test_accessible_by_prinipal_for_group(self):
+        self.add_resources(["a", "b", "c"], owner=self._group, public=True)
+        self.add_resources(["x", "y", "z"], owner=self._group, public=False)
+        resources = ExampleRestrictedResource.objects.accessible_by_principal(
+            self._group)
+        self.assertEqual(
+            [res.name for res in resources],
+            ["a", "b", "c", "x", "y", "z"])
+
+    def test_accessible_by_prinicpal_for_unrelated_user(self):
+        self.add_resources(["a", "b", "c"], owner=self._user, public=True)
+        self.add_resources(["x", "y", "z"], owner=self._user, public=False)
+        resources = ExampleRestrictedResource.objects.accessible_by_principal(
+            self._unrelated_user)
+        self.assertEqual(
+            [res.name for res in resources],
+            ["a", "b", "c"])
+
+    def test_accessible_by_prinicpal_for_unrelated_user_without_any_public_objects(self):
+        self.add_resources(["x", "y", "z"], owner=self._user, public=False)
+        resources = ExampleRestrictedResource.objects.accessible_by_principal(
+            self._unrelated_user)
+        self.assertEqual([res.name for res in resources], [])
+
+    def test_accessible_by_principal_for_group(self):
+        self.add_resources(["a", "b", "c"], owner=self._group, public=True)
+        self.add_resources(["x", "y", "z"], owner=self._group, public=False)
+        resources = ExampleRestrictedResource.objects.accessible_by_principal(
+            self._unrelated_user)
+        self.assertEqual([res.name for res in resources], ["a", "b", "c"])
+
+    def test_accessible_by_principal_for_group_and_member(self):
+        self.add_resources(["a", "b", "c"], owner=self._group, public=True)
+        self.add_resources(["x", "y", "z"], owner=self._group, public=False)
+        self._user.groups.add(self._group)
+        resources = ExampleRestrictedResource.objects.accessible_by_principal(
+            self._user)
+        self.assertEqual(
+            [res.name for res in resources],
+            ["a", "b", "c", "x", "y", "z"])

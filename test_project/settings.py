@@ -2,19 +2,19 @@
 #
 # Author: Zygmunt Krynicki <zygmunt.krynicki@linaro.org>
 #
-# This file is part of Launch Control.
+# This file is part of django-restricted-resource.
 #
-# Launch Control is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License version 3
+# django-restricted-resource is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License version 3
 # as published by the Free Software Foundation
 #
-# Launch Control is distributed in the hope that it will be useful,
+# django-restricted-resource is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
-# You should have received a copy of the GNU Affero General Public License
-# along with Launch Control.  If not, see <http://www.gnu.org/licenses/>.
+# You should have received a copy of the GNU Lesser General Public License
+# along with django-restricted-resource.  If not, see <http://www.gnu.org/licenses/>.
 
 # Test configuration
 
@@ -74,7 +74,7 @@ TEMPLATE_DEBUG = False
 
 MANAGERS = ADMINS
 
-ROOT_URLCONF = 'configs.test.urls'
+ROOT_URLCONF = ''
 
 SITE_ID = 1
 
