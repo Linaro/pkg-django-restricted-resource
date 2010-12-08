@@ -35,7 +35,6 @@ from django_restricted_resource.test_utils import (
 from django_restricted_resource.models import RestrictedResource
 
 
-
 class ResourceCleanTests(TestCase, FixtureHelper):
 
     def test_clean_raises_exception_when_owner_is_not_set(self):
