@@ -101,3 +101,12 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django_restricted_resource',
 )
+
+try:
+    import django_coverage
+    INSTALLED_APPS += ('django_coverage',)
+    import os
+    COVERAGE_REPORT_HTML_OUTPUT_DIR = os.getenv("COVERAGE_REPORT_HTML_OUTPUT_DIR")
+    COVERAGE_MODULE_EXCLUDES = []
+except ImportError:
+    pass
