@@ -44,4 +44,10 @@ setup(
     install_requires=[
         'django >= 1.0',
     ],
+    tests_require=[
+        'django-testscenarios >= 0.3',
+    ],
+    dependency_links = [
+        "http://launchpad.net/django-testscenarios/+download",
+    ],
 )
