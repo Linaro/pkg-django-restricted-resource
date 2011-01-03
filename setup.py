@@ -47,7 +47,4 @@ setup(
     tests_require=[
         'django-testscenarios >= 0.3',
     ],
-    dependency_links = [
-        "http://launchpad.net/django-testscenarios/+download",
-    ],
 )
