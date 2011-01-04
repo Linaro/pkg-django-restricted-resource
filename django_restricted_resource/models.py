@@ -83,7 +83,8 @@ class RestrictedResource(models.Model):
         if self.user is None and self.group is None:
             raise ValidationError(
                 'Must be owned by someone')
-        return super(RestrictedResource, self).clean()
+        if hasattr(models.Model, "clean"):
+            return super(RestrictedResource, self).clean()
 
     def _set_owner(self, owner):
         if not isinstance(owner, (User, Group)):
