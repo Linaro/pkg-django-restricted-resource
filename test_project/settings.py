@@ -16,12 +16,16 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with django-restricted-resource.  If not, see <http://www.gnu.org/licenses/>.
 
-from django_testproject.settings import *
+from django_testproject.settings import gen_settings
 
 
-INSTALLED_APPS += (
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django_restricted_resource',
+locals().update(
+    gen_settings(
+        INSTALLED_APPS=[
+            'django.contrib.auth',
+            'django.contrib.contenttypes',
+            'django.contrib.sessions',
+            'django_restricted_resource',
+        ]
+    )
 )

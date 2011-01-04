@@ -21,7 +21,7 @@ from setuptools import setup
 
 setup(
     name = 'django-restricted-resource',
-    version = "0.2.1",
+    version = "0.2.2",
     author = "Zygmunt Krynicki",
     author_email = "zygmunt.krynicki@linaro.org",
     description = "Base model for Django that adds simple and efficient ownership and access control.",
@@ -45,6 +45,6 @@ setup(
         'django >= 1.0',
     ],
     tests_require=[
-        'django-testscenarios >= 0.4',
+        'django-testscenarios >= 0.5',
     ],
 )
