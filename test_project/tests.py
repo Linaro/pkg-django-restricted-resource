@@ -17,29 +17,8 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with django-restricted-resource.  If not, see <http://www.gnu.org/licenses/>.
 
-import os
-import sys
 
-def find_sources():
-    base_path = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            "..")
-    if os.path.exists(os.path.join(base_path, "django_restricted_resource")):
-        sys.path.insert(0, base_path)
-
-
-find_sources()
-os.environ['DJANGO_SETTINGS_MODULE'] = 'test_project.settings'
-
-
-from django.test.utils import get_runner
-from django.conf import settings
-
-
-def run_tests():
-    runner = get_runner(settings)(verbosity=2, interactive=False)
-    failures = runner.run_tests(['django_restricted_resource'])
-    sys.exit(failures)
+from django_testproject.tests import run_tests
 
 
 if __name__ == '__main__':

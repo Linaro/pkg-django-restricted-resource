@@ -45,6 +45,6 @@ setup(
         'django >= 1.0',
     ],
     tests_require=[
-        'django-testscenarios >= 0.3',
+        'django-testscenarios >= 0.4',
     ],
 )
