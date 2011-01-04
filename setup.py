@@ -21,7 +21,7 @@ from setuptools import setup
 
 setup(
     name = 'django-restricted-resource',
-    version = "0.2",
+    version = "0.2.1",
     author = "Zygmunt Krynicki",
     author_email = "zygmunt.krynicki@linaro.org",
     description = "Base model for Django that adds simple and efficient ownership and access control.",
