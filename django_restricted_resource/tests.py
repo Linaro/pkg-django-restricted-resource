@@ -35,7 +35,7 @@ from django_restricted_resource.test_utils import (
 from django_restricted_resource.models import RestrictedResource
 
 
-class ResourceCleanTests(TestCase, FixtureHelper):
+class ResourceCleanTests(FixtureHelper, TestCase):
 
     def test_clean_raises_exception_when_owner_is_not_set(self):
         resource = RestrictedResource()
@@ -58,7 +58,7 @@ class ResourceCleanTests(TestCase, FixtureHelper):
         self.assertEqual(resource.clean(), None)
 
 
-class ResourceOwnerTest(TestCase, FixtureHelper):
+class ResourceOwnerTest(FixtureHelper, TestCase):
     """ Tests for the owner property """
 
     def test_user_is_owner(self):
@@ -93,7 +93,7 @@ class ResourceOwnerTest(TestCase, FixtureHelper):
 
 
 class PrincipalTypeIsChecked(
-    TestCaseWithInvariants, FixtureHelper):
+    FixtureHelper, TestCaseWithInvariants):
 
     invariants = dict(
         principal = [1, object(), {}, [], "string"],
@@ -119,7 +119,7 @@ class PrincipalTypeIsChecked(
 
 
 class OthersDoNotOwnResource(
-    TestCaseWithInvariants, FixtureHelper):
+    FixtureHelper, TestCaseWithInvariants):
     """
     RestrictedResource.is_owned_by() returns False for everyone but the owner
     """
@@ -146,7 +146,7 @@ class OthersDoNotOwnResource(
 
 
 class OwnerOwnsResource(
-    TestCaseWithInvariants, FixtureHelper):
+    FixtureHelper, TestCaseWithInvariants):
     """
     RestrictedResource.is_owned_by() returns True for the owner
     """
@@ -166,7 +166,7 @@ class OwnerOwnsResource(
 
 
 class ResourceManagerOwnerSetFindsNoMatchesForOthers(
-    TestCaseWithInvariants, FixtureHelper):
+    FixtureHelper, TestCaseWithInvariants):
     """
     RestrictedResourceManager.owned_by_principal() does not return
     anything for non-owners
@@ -196,7 +196,7 @@ class ResourceManagerOwnerSetFindsNoMatchesForOthers(
 
 
 class ResourceManagerOwnerSetFindsMatchesForOwner(
-    TestCaseWithInvariants, FixtureHelper):
+    FixtureHelper, TestCaseWithInvariants):
 
     invariants = dict(
         num_objects = [0, 10, 500],
@@ -219,7 +219,7 @@ class ResourceManagerOwnerSetFindsMatchesForOwner(
 
 
 class ResourceManagerOwnerSetFindsMatchesForOwnerGroupMember(
-    TestCaseWithInvariants, FixtureHelper):
+    FixtureHelper, TestCaseWithInvariants):
 
     invariants = dict(
         num_objects = [0, 10, 500],
@@ -241,7 +241,7 @@ class ResourceManagerOwnerSetFindsMatchesForOwnerGroupMember(
 
 
 class EveryoneHasPublicAccessToPublicResources(
-    TestCaseWithInvariants, FixtureHelper):
+    FixtureHelper, TestCaseWithInvariants):
     """ Tests for the get_access_type() method """
 
     invariants = dict(
@@ -276,7 +276,7 @@ class EveryoneHasPublicAccessToPublicResources(
 
 
 class NobodyButTheOwnerHasAccessToNonPublicUserResources(
-    TestCaseWithInvariants, FixtureHelper):
+    FixtureHelper, TestCaseWithInvariants):
     """ Tests for the get_access_type() method """
 
     invariants = dict(
@@ -298,7 +298,7 @@ class NobodyButTheOwnerHasAccessToNonPublicUserResources(
 
 
 class OwnerHasPrivateAccessToNonPublicUserResources(
-    TestCase, FixtureHelper):
+    FixtureHelper, TestCase):
     """ Tests for the get_access_type() method """
 
     def test_owner(self):
@@ -310,7 +310,7 @@ class OwnerHasPrivateAccessToNonPublicUserResources(
 
 
 class GroupMembersGetSharedAccessToNonPublicGroupResources(
-    TestCase, FixtureHelper):
+    FixtureHelper, TestCase):
 
     def test_get_access_type_for_owning_group(self):
         owner = self.getUniqueGroup()
@@ -330,7 +330,7 @@ class GroupMembersGetSharedAccessToNonPublicGroupResources(
 
 
 class ResourceManagerAccessibleSetFindsOnlyPublicElementsForNonOwners(
-    TestCaseWithInvariants, FixtureHelper):
+    FixtureHelper, TestCaseWithInvariants):
 
     invariants = dict(
         owner = dict(
@@ -357,7 +357,7 @@ class ResourceManagerAccessibleSetFindsOnlyPublicElementsForNonOwners(
 
 
 class ResourceManagerAccessibleByAnyoneSetFindsOnlyPublicElements(
-    TestCaseWithInvariants, FixtureHelper):
+    FixtureHelper, TestCaseWithInvariants):
 
     invariants = dict(
         owner = dict(
@@ -377,7 +377,7 @@ class ResourceManagerAccessibleByAnyoneSetFindsOnlyPublicElements(
 
 
 class ResourceManagerAccessibleByPrincipalSetFindsAllOwnedlements(
-    TestCaseWithInvariants, FixtureHelper):
+    FixtureHelper, TestCaseWithInvariants):
 
     invariants = dict(
         owner = dict(
@@ -397,7 +397,7 @@ class ResourceManagerAccessibleByPrincipalSetFindsAllOwnedlements(
 
 
 class ResourceManagerAccessibleSetTests(
-    TestCase, FixtureHelper):
+    FixtureHelper, TestCase):
 
     def setUp(self):
         super(ResourceManagerAccessibleSetTests, self).setUp()

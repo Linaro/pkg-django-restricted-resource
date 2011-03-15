@@ -110,16 +110,28 @@ class ExampleRestrictedResource(RestrictedResource):
 
 class FixtureHelper(object):
 
+    def getUniqueString(self, prefix=None, max_length=None):
+        value = super(FixtureHelper, self).getUniqueString(prefix)
+        if max_length is not None:
+            if len(value) >= max_length:
+                value = super(FixtureHelper, self).getUniqueString("short")
+                if len(value) >= max_length:
+                    raise ValueError("Unable to satisfy request for random string with max_length=%d" % max_length)
+        return value
+
+    def getUniqueStringForField(self, model, field_name):
+        return self.getUniqueString(max_length=model._meta.get_field_by_name(field_name)[0].max_length)
+
     def getUniqueUser(self, is_active=True):
         user = User.objects.create(
-            username=self.getUniqueString(),
+            username=self.getUniqueStringForField(User, "username"),
             is_active = is_active)
         self.addCleanup(user.delete)
         return user
 
     def getUniqueGroup(self):
         group = Group.objects.create(
-            name = self.getUniqueString())
+            name = self.getUniqueStringForField(Group, "name"))
         self.addCleanup(group.delete)
         return group
 
