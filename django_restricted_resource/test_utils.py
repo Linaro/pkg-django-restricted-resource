@@ -21,7 +21,7 @@ import itertools
 
 from django.contrib.auth.models import (AnonymousUser, User, Group)
 from django.db import models
-from django_testscenarios import (TestCase, TestCaseWithScenarios)
+from django_testscenarios.ubertest import (TestCase, TestCaseWithScenarios)
 
 from django_restricted_resource.models import RestrictedResource
 

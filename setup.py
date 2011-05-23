@@ -21,12 +21,12 @@ from setuptools import setup
 
 setup(
     name = 'django-restricted-resource',
-    version = "0.2.4",
+    version = "0.2.5",
     author = "Zygmunt Krynicki",
     author_email = "zygmunt.krynicki@linaro.org",
     description = "Base model for Django that adds simple and efficient ownership and access control.",
     url = 'https://launchpad.net/django-restricted-resource',
-    test_suite = 'test_project.tests.run_tests',
+    test_suite = 'django_restricted_resource.test_project.tests.run_tests',
     license='LGPLv3',
     keywords = ['django', 'ownership', 'models'],
     classifiers = [
@@ -45,6 +45,6 @@ setup(
         'django >= 1.0',
     ],
     tests_require=[
-        'django-testscenarios >= 0.5',
+        'django-testscenarios >= 0.6',
     ],
 )

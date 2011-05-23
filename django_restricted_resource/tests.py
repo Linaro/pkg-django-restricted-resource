@@ -23,7 +23,7 @@ Unit tests for django_restricted_resource application
 from django.contrib.auth.models import (AnonymousUser, User, Group)
 from django.core.exceptions import ValidationError
 
-from django_testscenarios import TestCaseWithScenarios
+from django_testscenarios.ubertest import TestCaseWithScenarios
 from django_restricted_resource.test_utils import (
     ExampleRestrictedResource,
     FixtureHelper,
