@@ -36,7 +36,7 @@ class RestrictedResource(models.Model):
     simple but arguably useful model with the following properties:
         * resources are owned by exactly one user or exactly one group
         * resources are accessible to anyone if marked as public
-        * resources are accessible to owners if owned by user
+        * resources are accessible to owner if owned by user
         * resources are accessible to members if owned by group
         * What the access actually permits is not defined
 
