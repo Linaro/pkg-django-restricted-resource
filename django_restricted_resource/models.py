@@ -117,10 +117,22 @@ class RestrictedResource(models.Model):
         """
         if principal is None:
             return False
-        if not isinstance(principal,
-                          (User, Group, AnonymousUser, type(None))):
+        # If the principal is an User then this object is owned by that user or
+        # the group the user belongs to.
+        if isinstance(principal, (User, AnonymousUser, type(None))):
+            user = filter_bogus_users(principal)
+            if user is None:
+                return False
+            if self.user is not None:
+                return self.user == user
+            else:
+                return self.group in user.groups.all()
+        # If the principal is a Group then this object is owned by that group
+        elif isinstance(principal, Group):
+            group = principal
+            return self.group == group
+        else:
             raise TypeError("Expected User or Group instance as argument")
-        return self.user == principal or self.group == principal
 
     def get_access_type(self, principal):
         """

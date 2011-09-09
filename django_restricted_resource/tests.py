@@ -165,6 +165,19 @@ class OwnerOwnsResource(
         self.assertTrue(resource.is_owned_by(self.owner))
 
 
+class GroupMemberOwnsResource(FixtureHelper):
+
+    def test(self):
+        """
+        RestrictedResource.is_owned_by() returns True for owning group members
+        """
+        group = self.getUniqueGroup()
+        user = self.getUniqueUser()
+        user.groups.add(group)
+        resource = self.getUniqueResource(owner=group)
+        self.assertTrue(resource.is_owned_by(user))
+
+
 class ResourceManagerOwnerSetFindsNoMatchesForOthers(
     FixtureHelper, TestCaseWithInvariants):
     """
