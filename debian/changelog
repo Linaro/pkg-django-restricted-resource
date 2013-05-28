@@ -1,0 +1,11 @@
+django-restricted-resource (0.2.7-0co2) unstable; urgency=low
+
+  * Minor packaging cleanups.
+
+ -- Jordi Mallach <jordi.mallach@collabora.co.uk>  Tue, 28 May 2013 13:22:08 +0200
+
+django-restricted-resource (0.2.7-0co1) unstable; urgency=low
+
+  * Initial release, based on old Linaro packaging.
+
+ -- Jordi Mallach <jordi.mallach@collabora.co.uk>  Thu, 09 Aug 2012 15:37:23 +0200

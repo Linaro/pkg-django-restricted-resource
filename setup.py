@@ -41,7 +41,7 @@ setup(
         "Programming Language :: Python :: 2.7",
     ],
     zip_safe=True,
-    packages=['django_restricted_resource'],
+    packages=['django_restricted_resource', 'django_restricted_resource/test_project'],
     # dependencies
     install_requires=['django >= 1.0'],
     tests_require=['django-testscenarios >= 0.7.1'],
