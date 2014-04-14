@@ -1,6 +1,7 @@
 django-restricted-resource (2014.02-1) unstable; urgency=medium
 
-  * New upstream release
+  * New upstream release. (Closes: #744795: ITP: django-restricted-resource
+    - Django Base model for ownership and access control)
 
  -- Neil Williams <codehelp@debian.org>  Mon, 14 Apr 2014 12:38:25 +0100
 
