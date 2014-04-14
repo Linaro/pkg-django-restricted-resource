@@ -2,8 +2,9 @@ Source: django-restricted-resource
 Section: python
 Priority: optional
 Maintainer: Debian LAVA team <pkg-linaro-lava-devel@lists.alioth.debian.org>
-Uploaders: Fathi Boudra <fabo@debian.org>, Jordi Mallach <jordi@debian.org>,
- Neil Williams <codehelp@debian.org>
+Uploaders: Antonio Terceiro <terceiro@debian.org>,
+ Neil Williams <codehelp@debian.org>,
+ Fathi Boudra <fabo@debian.org>, Jordi Mallach <jordi@debian.org>
 Build-Depends:  debhelper (>= 9),
  python | python-all | python-dev | python-all-dev,
  python-setuptools, django-testscenarios
