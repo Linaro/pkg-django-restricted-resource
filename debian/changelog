@@ -1,3 +1,9 @@
+django-restricted-resource (2014.02-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Neil Williams <codehelp@debian.org>  Mon, 14 Apr 2014 12:38:25 +0100
+
 django-restricted-resource (0.2.8-1) unstable; urgency=low
 
   * Ported to LAVA server

@@ -6,14 +6,13 @@
 .PHONY: override_dh_auto_test
 override_dh_auto_test:
 	# Run the bundled tests when building the package
-	# The tests currently fail
-	#LC_ALL=C python setup.py test
+	LC_ALL=C python setup.py test
 
 override_dh_auto_clean:
 	dh_auto_clean
 	$(RM) django_restricted_resource/__init__.pyc
 	# Cleanup versiontools leftovers
-	$(RM) -r setup.cfg versiontools* django_restricted_resource.egg-info/
+	$(RM) -r setup.cfg django_restricted_resource.egg-info/
 
 # get upstream version for get-orig-source target
 VERSION:= $(shell dpkg-parsechangelog | grep '^Version: ' | sed -e 's/^Version: //' | sed -e 's/\-.*$$//')
