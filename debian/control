@@ -9,6 +9,7 @@ Build-Depends:  debhelper (>= 9),
  python | python-all | python-dev | python-all-dev,
  python-setuptools, django-testscenarios
 X-Python-Version: 2.7
+XS-Testsuite: autopkgtest
 Standards-Version: 3.9.5
 Homepage: http://www.linaro.org/engineering/validation
 Vcs-Browser: https://github.com/Linaro/pkg-django-restricted-resource

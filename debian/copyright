@@ -4,16 +4,17 @@ Source: https://pypi.python.org/pypi/django-restricted-resource
 
 Files: debian/*
 Copyright: 2012-2013 Collabora Ltd.
+           2014 Neil Williams <codehelp@debian.org>
 License: LGPL-3
 
 Files: *
-Copyright: 2010-2013 Linaro Ltd.
+Copyright: 2010-2014 Linaro Ltd.
 License: LGPL-3
 
 License: LGPL-3
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU Lesser General Public License version 3
- as published by the Free Software Foundation
+ as published by the Free Software Foundation.
  .
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
