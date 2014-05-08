@@ -1,3 +1,9 @@
+django-restricted-resource (2014.04-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Neil Williams <codehelp@debian.org>  Thu, 08 May 2014 18:06:05 +0100
+
 django-restricted-resource (2014.02-1) unstable; urgency=medium
 
   * New upstream release. (Closes: #744795: ITP: django-restricted-resource
