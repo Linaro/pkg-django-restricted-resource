@@ -1,3 +1,11 @@
+django-restricted-resource (2014.09-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Add support for Django 1.7 - thanks to Raphaël Hertzog
+   (Closes: #755607)
+
+ -- Neil Williams <codehelp@debian.org>  Tue, 16 Sep 2014 15:31:04 -0700
+
 django-restricted-resource (2014.04-2) unstable; urgency=medium
 
   * Allow stderr with the autopkgtest support. Retain support for
