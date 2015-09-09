@@ -1,3 +1,9 @@
+django-restricted-resource (2014.09-3) unstable; urgency=medium
+
+  * Add Senthil Kumaran S (stylesen) as an uploader.
+
+ -- Senthil Kumaran S (stylesen) <stylesen@gmail.com>  Tue, 08 Sep 2015 22:26:21 +0530
+
 django-restricted-resource (2014.09-2) unstable; urgency=medium
 
   * Add watch file
