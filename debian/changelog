@@ -1,3 +1,9 @@
+django-restricted-resource (2015.9-1) unstable; urgency=medium
+
+  * New upstream release 
+
+ -- Neil Williams <codehelp@debian.org>  Tue, 20 Oct 2015 10:09:53 +0100
+
 django-restricted-resource (2014.09-3) unstable; urgency=medium
 
   * Add Senthil Kumaran S (stylesen) as an uploader.
