@@ -1,3 +1,10 @@
+django-restricted-resource (2015.11-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Includes support for django1.6.
+
+ -- Neil Williams <codehelp@debian.org>  Wed, 25 Nov 2015 15:35:25 +0000
+
 django-restricted-resource (2015.9-1) unstable; urgency=medium
 
   * New upstream release 
