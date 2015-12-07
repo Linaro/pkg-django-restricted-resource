@@ -5,8 +5,8 @@
 
 .PHONY: override_dh_auto_test
 override_dh_auto_test:
-	# Run the bundled tests when building the package
-	LC_ALL=C python setup.py test
+	# Run the bundled tests (in-memory database) when building the package
+	LC_ALL=C ./django_restricted_resource/test_project/manage.py test
 
 override_dh_auto_clean:
 	dh_auto_clean

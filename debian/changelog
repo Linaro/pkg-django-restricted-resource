@@ -1,3 +1,10 @@
+django-restricted-resource (2015.11-2) unstable; urgency=medium
+
+  * Change the call to the tests in package build to use the
+    internal manage.py for django1.9 compatibility. (Closes: #807350)
+
+ -- Neil Williams <codehelp@debian.org>  Mon, 07 Dec 2015 21:12:15 +0000
+
 django-restricted-resource (2015.11-1) unstable; urgency=medium
 
   * New upstream release.
