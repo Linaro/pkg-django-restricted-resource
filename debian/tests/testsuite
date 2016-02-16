@@ -2,5 +2,5 @@
 
 set -e
 
-python setup.py test
+./django_restricted_resource/test_project/manage.py test -v2
 
