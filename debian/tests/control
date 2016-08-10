@@ -1,4 +1,4 @@
 Tests: testsuite
-Depends: @builddeps@, python-django-restricted-resource
+Depends: @builddeps@, python-django-restricted-resource, python3-django-restricted-resource
 Restrictions: allow-stderr
 
