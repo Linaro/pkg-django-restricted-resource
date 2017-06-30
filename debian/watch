@@ -1,6 +1,7 @@
+# Compulsory line, this is a version 3 file
 version=3
 
-# https://pypi.python.org/packages/source/d/django-restricted-resource/django-restricted-resource-([^abc]*)\.tar\.gz
+# https://git.linaro.org/lava/lava-dispatcher.git/snapshot/lava-server-2016.11.tar.gz
 
-https://git.linaro.org/lava/django-restricted-resource.git/tags /lava/django-restricted-resource.git/log/refs/tags/release-(.*)
+https://git.linaro.org/lava/django-restricted-resource.git/refs /lava/django-restricted-resource.git/snapshot/django-restricted-resource-release-(\d+.\d+.\d?)\d*.*.tar.gz
 
