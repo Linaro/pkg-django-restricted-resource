@@ -1,3 +1,11 @@
+django-restricted-resource (2016.8-2) unstable; urgency=medium
+
+  * Reduce build-depends to assist python3 transition.
+    (Closes: #866539)
+  * Bump standards version (no changes)
+
+ -- Neil Williams <codehelp@debian.org>  Fri, 30 Jun 2017 09:15:56 +0100
+
 django-restricted-resource (2016.8-1) unstable; urgency=medium
 
   * New upstream release for python3 support.
