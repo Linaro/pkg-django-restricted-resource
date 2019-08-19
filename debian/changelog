@@ -1,4 +1,4 @@
-django-restricted-resource (2016.8-3) UNRELEASED; urgency=medium
+django-restricted-resource (2016.8-3) unstable; urgency=medium
 
   * Team upload.
   * Drop Python 2 support
@@ -6,7 +6,7 @@ django-restricted-resource (2016.8-3) UNRELEASED; urgency=medium
   * Update autopkgtest to skip python 2 tests
   * Switch buildsystem to pybuild
 
- -- Antonio Terceiro <terceiro@debian.org>  Mon, 19 Aug 2019 15:44:59 -0300
+ -- Antonio Terceiro <terceiro@debian.org>  Mon, 19 Aug 2019 16:31:36 -0300
 
 django-restricted-resource (2016.8-2) unstable; urgency=medium
 
