@@ -2,6 +2,6 @@
 
 set -e
 
-./django_restricted_resource/test_project/manage.py test -v2
-python3 ./django_restricted_resource/test_project/manage.py test -v2
+cd django_restricted_resource
+python3 test_project/manage.py test -v2
 
