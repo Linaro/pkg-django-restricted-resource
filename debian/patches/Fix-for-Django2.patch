@@ -1,0 +1,22 @@
+--- a/django_restricted_resource/models.py
++++ b/django_restricted_resource/models.py
+@@ -54,8 +54,8 @@ class RestrictedResource(models.Model):
+     """
+     NO_ACCESS, PUBLIC_ACCESS, PRIVATE_ACCESS, SHARED_ACCESS = range(4)
+ 
+-    user = models.ForeignKey(User, null=True, blank=True)
+-    group = models.ForeignKey(Group, null=True, blank=True)
++    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
++    group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True, blank=True)
+     is_public = models.BooleanField(default=False)
+ 
+     objects = RestrictedResourceManager()
+--- a/django_restricted_resource/utils.py
++++ b/django_restricted_resource/utils.py
+@@ -24,5 +24,5 @@ def filter_bogus_users(user):
+     If the user is `None' then he's not trusted, period, no need to
+     check deeper.
+     """
+-    if user is not None and user.is_authenticated() and user.is_active:
++    if user is not None and user.is_authenticated and user.is_active:
+         return user
