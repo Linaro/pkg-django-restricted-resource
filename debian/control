@@ -5,23 +5,12 @@ Maintainer: Debian LAVA team <pkg-linaro-lava-devel@lists.alioth.debian.org>
 Uploaders: Neil Williams <codehelp@debian.org>,
  Senthil Kumaran S (stylesen) <stylesen@gmail.com>
 Build-Depends: debhelper (>= 9), dh-python,
- python-all, python-setuptools, django-testscenarios,
  python3-all, python3-setuptools, python3-django-testscenarios
 X-Python-Version: >=2.7
 Standards-Version: 4.0.0
 Homepage: http://www.linaro.org/engineering/validation
 Vcs-Browser: https://github.com/Linaro/pkg-django-restricted-resource
 Vcs-Git: https://github.com/Linaro/pkg-django-restricted-resource.git
-
-Package: python-django-restricted-resource
-Architecture: all
-Depends: ${misc:Depends}, ${python:Depends}
-Provides: ${python:Provides}
-Description: Django Base model for ownership and access control (Python 2)
- Restricted resources can have owners, users or groups of users,
- organised within the django admin interface. Resources can be
- public or private to allow an app to provide access control
- over model objects.
 
 Package: python3-django-restricted-resource
 Architecture: all
