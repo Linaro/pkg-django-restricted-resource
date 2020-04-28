@@ -1,3 +1,9 @@
+django-restricted-resource (2016.8-4) UNRELEASED; urgency=medium
+
+  * Trim trailing whitespace.
+
+ -- Debian Janitor <janitor@jelmer.uk>  Tue, 28 Apr 2020 16:33:33 +0000
+
 django-restricted-resource (2016.8-3) unstable; urgency=medium
 
   * Team upload.
@@ -45,7 +51,7 @@ django-restricted-resource (2015.11-1) unstable; urgency=medium
 
 django-restricted-resource (2015.9-1) unstable; urgency=medium
 
-  * New upstream release 
+  * New upstream release
 
  -- Neil Williams <codehelp@debian.org>  Tue, 20 Oct 2015 10:09:53 +0100
 

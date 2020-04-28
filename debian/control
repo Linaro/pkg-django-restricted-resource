@@ -23,4 +23,3 @@ Description: Django Base model for ownership and access control (Python 3)
  over model objects.
  .
  This package contains the python3 module.
-
