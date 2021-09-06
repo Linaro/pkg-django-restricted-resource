@@ -4,11 +4,11 @@ Priority: optional
 Maintainer: Debian LAVA team <pkg-linaro-lava-devel@lists.alioth.debian.org>
 Uploaders: Neil Williams <codehelp@debian.org>,
  Senthil Kumaran S (stylesen) <stylesen@gmail.com>
-Build-Depends: debhelper (>= 9), dh-python,
+Build-Depends: debhelper-compat (= 13), dh-python,
  python3-all, python3-setuptools, python3-django-testscenarios
 X-Python-Version: >=2.7
 Standards-Version: 4.0.0
-Homepage: http://www.linaro.org/engineering/validation
+Homepage: https://www.linaro.org/engineering/validation
 Vcs-Browser: https://github.com/Linaro/pkg-django-restricted-resource
 Vcs-Git: https://github.com/Linaro/pkg-django-restricted-resource.git
 
@@ -23,4 +23,3 @@ Description: Django Base model for ownership and access control (Python 3)
  over model objects.
  .
  This package contains the python3 module.
-
